@@ -1,6 +1,7 @@
 package hu.ait.apod;
 
 import android.app.DatePickerDialog;
+import android.support.v4.app.BundleCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -30,13 +31,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     public static final String API_KEY = "DoQByy5daS0Cf2hkVVWb2LFaYe7mmgrZyMak8CHT";
+    private final String SAVE_DATE = "SAVE_DATE";
 
     @BindView(R.id.btnDate)
     Button btnDate;
-    @BindView(R.id.tvData)
-    TextView tvData;
     @BindView(R.id.imgAPOD)
     ImageView imgAPOD;
+    @BindView(R.id.tvTitle)
+    TextView tvTitle;
+    @BindView(R.id.tvData)
+    TextView tvData;
+
 
     final Calendar myCalendar = Calendar.getInstance();
 
@@ -56,6 +61,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+
+        if (savedInstanceState != null) {
+            myCalendar.set(Calendar.YEAR, ((Calendar) savedInstanceState.getSerializable(SAVE_DATE)).get(Calendar.YEAR));
+            myCalendar.set(Calendar.MONTH, ((Calendar) savedInstanceState.getSerializable(SAVE_DATE)).get(Calendar.MONTH));
+            myCalendar.set(Calendar.DAY_OF_MONTH, ((Calendar) savedInstanceState.getSerializable(SAVE_DATE)).get(Calendar.DAY_OF_MONTH));
+        }
 
         getAPODInfo(myCalendar.getTime());
     }
@@ -92,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 Glide.with(MainActivity.this)
                         .load(result.getHdurl())
                         .into(imgAPOD);
-
+                tvTitle.setText(result.getTitle());
                 tvData.setText(result.getExplanation());
             }
 
@@ -102,5 +113,11 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable(SAVE_DATE, myCalendar);
+        super.onSaveInstanceState(savedInstanceState);
     }
 }
