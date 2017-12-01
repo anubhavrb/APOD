@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">APOD</string>
+    <string name="pick_date">Pick Date</string>
 </resources>
