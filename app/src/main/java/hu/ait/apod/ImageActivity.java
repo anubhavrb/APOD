@@ -13,17 +13,20 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnLongClick;
+import hu.ait.apod.image.TouchImageView;
 
 public class ImageActivity extends AppCompatActivity {
 
     @BindView(R.id.imgFull)
-    ImageView imgFull;
+    TouchImageView imgFull;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +37,16 @@ public class ImageActivity extends AppCompatActivity {
 
         if (getIntent() != null) {
             String imgUrl = getIntent().getStringExtra(MainActivity.IMG_URL);
-            Glide.with(ImageActivity.this)
+            Glide.with(ImageActivity.this).load(imgUrl).asBitmap().into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    imgFull.setImageBitmap(resource);
+                }
+            });
+
+            /*Glide.with(ImageActivity.this)
                     .load(imgUrl)
-                    .into(imgFull);
+                    .into(wallpaperImage);*/
         }
     }
 

@@ -8,11 +8,11 @@
     android:background="#000"
     tools:context="hu.ait.apod.ImageActivity">
 
-    <ImageView
+    <hu.ait.apod.image.TouchImageView
         android:id="@+id/imgFull"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:adjustViewBounds="true"/>
 
 </RelativeLayout>

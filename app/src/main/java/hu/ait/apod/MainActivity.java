@@ -2,13 +2,11 @@ package hu.ait.apod;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.support.v4.app.BundleCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -114,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 if (result == null)
                     return;
 
-                if (!result.getHdurl().equals("")) {
+                if (result.getHdurl() != null) {
                     Glide.with(MainActivity.this)
                             .load(result.getHdurl())
                             .into(imgAPOD);
