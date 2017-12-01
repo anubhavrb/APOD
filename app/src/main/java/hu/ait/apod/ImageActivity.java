@@ -1,15 +1,24 @@
 package hu.ait.apod;
 
+import android.app.Dialog;
+import android.app.WallpaperManager;
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.media.Image;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnLongClick;
 
 public class ImageActivity extends AppCompatActivity {
 
@@ -29,6 +38,31 @@ public class ImageActivity extends AppCompatActivity {
                     .load(imgUrl)
                     .into(imgFull);
         }
+    }
+
+    @OnLongClick(R.id.imgFull)
+    public boolean imgLongClicked() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Set Wallpaper?")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        imgFull.buildDrawingCache();
+                        Bitmap bmp = imgFull.getDrawingCache();
+
+                        WallpaperManager wm = WallpaperManager.getInstance(ImageActivity.this);
+                        try {
+                            wm.setBitmap(bmp);
+                        } catch (IOException e) {
+                            Toast.makeText(ImageActivity.this,
+                                    "There was a problem setting the wallpaper",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+
+        return true;
     }
 
     @Override

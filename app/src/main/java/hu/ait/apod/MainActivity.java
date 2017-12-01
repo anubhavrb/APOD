@@ -114,9 +114,16 @@ public class MainActivity extends AppCompatActivity {
                 if (result == null)
                     return;
 
-                Glide.with(MainActivity.this)
-                        .load(result.getHdurl())
-                        .into(imgAPOD);
+                if (!result.getHdurl().equals("")) {
+                    Glide.with(MainActivity.this)
+                            .load(result.getHdurl())
+                            .into(imgAPOD);
+                }
+                else {
+                    Glide.with(MainActivity.this)
+                            .load(result.getUrl())
+                            .into(imgAPOD);
+                }
                 tvTitle.setText(result.getTitle());
                 tvData.setText(result.getExplanation());
 
