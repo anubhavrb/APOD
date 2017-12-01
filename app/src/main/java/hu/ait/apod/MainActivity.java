@@ -1,12 +1,14 @@
 package hu.ait.apod;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.support.v4.app.BundleCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,10 +33,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     public static final String API_KEY = "DoQByy5daS0Cf2hkVVWb2LFaYe7mmgrZyMak8CHT";
-    private final String SAVE_DATE = "SAVE_DATE";
+    private static final String SAVE_DATE = "SAVE_DATE";
+    public static final String IMG_URL = "IMG_URL";
+    private String imgURL;
 
     @BindView(R.id.btnDate)
     Button btnDate;
+    @BindView(R.id.tvDate)
+    TextView tvDate;
     @BindView(R.id.imgAPOD)
     ImageView imgAPOD;
     @BindView(R.id.tvTitle)
@@ -80,10 +86,18 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    @OnClick(R.id.imgAPOD)
+    public void imgClicked() {
+        Intent intent = new Intent(MainActivity.this, ImageActivity.class);
+        intent.putExtra(IMG_URL, imgURL);
+        startActivity(intent);
+    }
+
     private void getAPODInfo(Date date) {
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String date_s = formatter.format(date);
-        tvData.setText(date_s);
+        formatter = new SimpleDateFormat("dd MMM, yyyy");
+        tvDate.setText(formatter.format(date));
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.nasa.gov/planetary/")
@@ -105,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
                         .into(imgAPOD);
                 tvTitle.setText(result.getTitle());
                 tvData.setText(result.getExplanation());
+
+                imgURL = result.getHdurl();
             }
 
             @Override

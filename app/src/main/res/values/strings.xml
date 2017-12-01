@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">APOD</string>
     <string name="pick_date">Pick Date</string>
+
+    <string name="title_activity_img_full">ImgFullActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
