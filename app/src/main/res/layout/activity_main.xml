@@ -46,6 +46,17 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"/>
 
+        <TextView
+            android:id="@+id/tvError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:visibility="gone"/>
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
